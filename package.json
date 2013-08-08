@@ -1,0 +1,22 @@
+{
+  "name": "gemeinde-scraper-tools",
+  "version": "0.1.0",
+  "description": "gemeinde-scraper-tools",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+  },
+  "dependencies": {
+	    "cheerio": ">= 0.12.1",
+	    "mongojs": ">= 0.7.10"
+	  },
+  "repository": "",
+  "keywords": [
+    "Node.js",
+    "Eclipse",
+    "Nodeclipse"
+  ],
+  "author": "",
+  "license": "BSD",
+  "readmeFilename": "README.md"
+}
