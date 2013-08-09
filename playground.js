@@ -23,19 +23,13 @@ var gemeinden = [ "http://www.abstatt.de/", "http://www.bad-friedrichshall.de/",
 
 function handleData(data) {
 	var $ = cheerio.load(data);
-	$('#dynamischeListe2').find('li').each(function(index, element) {
-		var link = $(this).find('div.newsText a').first();
+	$('#contentbereich').find('li').each(function(index, element) {
+		var link = $(this).find('div.aktuellbereichText a').first();
 		var title = link.text();
 		var href = link.attr('href');
-		var date = $(this).text();
-		var datePattern = /Artikel vom (..)\.(..)\.(....)/;
-		var parsedDate = "";
-		var matched = datePattern.exec(date);
-		if (matched) {
-			parsedDate += matched[1] + "." + matched[2] + "." + matched[3];
-		} else
-			console.log("UNMATCHED DATE: " + date);
-		console.log(title + ", " + href + " => " + parsedDate);
+		var date = new Date();
+
+		console.log(title + ", " + href + " => " + date);
 	});
 
 }
@@ -52,10 +46,10 @@ function extractPublisher(data) {
 }
 
 function readFromFile() {
-	fs.readFile('ubach.html', function(err, data) {
+	fs.readFile('ittlingen.html', function(err, data) {
 		if (err)
 			throw err;
-		extractPublisher(data);
+		handleData(data);
 	});
 }
 
@@ -105,4 +99,4 @@ function scrapeGemeinde(index) {
 	}
 }
 
-scrapeGemeinde(gemeindeIndex);
+readFromFile();
