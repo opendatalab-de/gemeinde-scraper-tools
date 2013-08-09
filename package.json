@@ -8,7 +8,8 @@
   },
   "dependencies": {
 	    "cheerio": ">= 0.12.1",
-	    "mongojs": ">= 0.7.10"
+	    "mongojs": ">= 0.7.10",
+	    "iconv-lite": ">= 0.2.11"
 	  },
   "repository": "",
   "keywords": [

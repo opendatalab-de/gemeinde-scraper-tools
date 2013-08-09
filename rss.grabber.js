@@ -7,6 +7,17 @@ var RssCreator = function(urls, options) {
 	var userCallback = null;
 
 	function readFullResponse(response, callback) {
+		var encoding = 'utf8';
+		if (response.headers['content-type']) {
+			var contentType = response.headers['content-type'];
+			var matchResult = contentType.match(/charset=(.*)/i);
+			if (matchResult) {
+				encoding = matchResult[1];
+			}
+		}
+		if (encoding.toLowerCase() != "utf8") {
+			response.setEncoding('binary');
+		}
 		var data = "";
 		response.on('readable', function() {
 			data += response.read();
