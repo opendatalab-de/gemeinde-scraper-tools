@@ -74,6 +74,8 @@ function handleData2(data, baseUrl) {
 		var title = link.text();
 		var href = link.attr('href');
 		var date = new Date();
+		if (href.indexOf('http') == -1)
+			href = baseUrl + href;
 
 		feed.push({
 			title : title,
@@ -87,7 +89,7 @@ function handleData2(data, baseUrl) {
 	return feed;
 }
 
-function handleData3(data) {
+function handleData3(data, baseUrl) {
 	var feed = [];
 	var $ = cheerio.load(data);
 	$('#contentbereich').find('li').each(function(index, element) {
@@ -95,6 +97,8 @@ function handleData3(data) {
 		var title = link.text();
 		var href = link.attr('href');
 		var date = new Date();
+		if (href.indexOf('http') == -1)
+			href = baseUrl + href;
 
 		feed.push({
 			title : title,
