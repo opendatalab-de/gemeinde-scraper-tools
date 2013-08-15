@@ -1,3 +1,4 @@
+var https = require('https');
 var http = require('http');
 var url = require('url');
 
@@ -34,19 +35,26 @@ var RssCreator = function(dataHandler, options) {
 
 		var parsedUrl = url.parse(feedUrl);
 
+		var resultUrl = {};
+
 		var lastSlash = parsedUrl.path.lastIndexOf('/');
 		if (lastSlash != -1) {
 			var baseUrl = parsedUrl.path.substring(0, lastSlash);
-			return parsedUrl.protocol + '//' + parsedUrl.host + baseUrl + '/';
+			resultUrl.baseUrl = parsedUrl.protocol + '//' + parsedUrl.host + baseUrl + '/';
 
 		} else {
-			return feedUrl + '/';
+			resultUrl.baseUrl = feedUrl + '/';
 		}
+
+		resultUrl.host = parsedUrl.protocol + '//' + parsedUrl.host;
+
+		return resultUrl;
 	}
 	function scrape(urls) {
 		if (urls.length > 0) {
 			var feedUrl = urls.pop();
-			http.get(feedUrl, function(res) {
+			var requestHttp = feedUrl.indexOf('https') != -1 ? https : http;
+			requestHttp.get(feedUrl, function(res) {
 				readFullResponse(res, function(data) {
 					var feed = dataHandler(data, createBaseUrl(feedUrl));
 					if (feed) {

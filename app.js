@@ -38,7 +38,7 @@ function handleData1(data, baseUrl) {
 		var title = link.text();
 		var href = link.attr('href');
 		if (href.indexOf('http') == -1)
-			href = baseUrl + href;
+			href = baseUrl.baseUrl + href;
 		var date = $(this).text();
 		var datePattern = /(.*)Artikel vom (..)\.(..)\.(....)/;
 		var parsedDate = null;
@@ -75,7 +75,7 @@ function handleData2(data, baseUrl) {
 		var href = link.attr('href');
 		var date = new Date();
 		if (href.indexOf('http') == -1)
-			href = baseUrl + href;
+			href = baseUrl.baseUrl + href;
 
 		feed.push({
 			title : title,
@@ -98,7 +98,7 @@ function handleData3(data, baseUrl) {
 		var href = link.attr('href');
 		var date = new Date();
 		if (href.indexOf('http') == -1)
-			href = baseUrl + href;
+			href = baseUrl.baseUrl + href;
 
 		feed.push({
 			title : title,
