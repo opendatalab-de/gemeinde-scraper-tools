@@ -20,9 +20,11 @@ function collectUrls(config, callback) {
 	var matcher = new RegExp(config.urlPattern);
 	gemeindeMetaData.find().forEach(function(err, doc) {
 		if (doc) {
-			var feed = doc.feed;
-			if (matcher.exec(feed)) {
-				result[doc.feed] = doc._id;
+			var feeds = doc.feed.split(",");
+			for (var x = 0; x < feeds.length; x++) {
+				if (matcher.exec(feeds[x])) {
+					result[feeds[x]] = doc._id;
+				}
 			}
 		} else {
 			callback(config, result);
@@ -121,7 +123,7 @@ function saveNewsItems(newsItems) {
 		unique : true
 	});
 
-	for ( var x = 0; x < newsItems.length; x++) {
+	for (var x = 0; x < newsItems.length; x++) {
 		gemeindeNewsItem.save(newsItems[x], {
 			safe : true
 		}, function(err, doc) {
@@ -160,7 +162,7 @@ function processConfigs() {
 					var res = result[url];
 					var id = urlMap[url];
 					if (util.isArray(res)) {
-						for ( var x = 0; x < res.length; x++) {
+						for (var x = 0; x < res.length; x++) {
 							var newsItem = res[x];
 							if (newsItem.title) {
 								newsItem.metaDataId = id;
