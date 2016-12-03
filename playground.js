@@ -1,5 +1,6 @@
 var http = require('http');
 var fs = require('fs');
+var request = require('request');
 var cheerio = require('cheerio');
 var gemeindeIndex = 0;
 var gemeinden = [ "http://www.abstatt.de/", "http://www.bad-friedrichshall.de/",
@@ -77,26 +78,20 @@ function scrapeGemeinde(index) {
 	if (index < gemeinden.length) {
 		console.log(index + " Getting data for " + gemeinden[index]);
 		var url = gemeinden[index];
-		http.get(url, function(res) {
-			var data = "";
-			res.on('readable', function() {
-				data += res.read();
-			});
-			res.on('end', function() {
-				var $ = cheerio.load(data);
-
+		request(url, function(error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var $ = cheerio.load(body);
 				var generator = $('meta[name=generator]').attr('content');
 				var publisher = $('meta[name=publisher]').attr('content');
 				var author = $('meta[name=author]').attr('content');
-
 				console.log('META: ' + generator + '\t' + publisher + '\t' + author);
 				scrapeGemeinde(++index);
-			});
-		}).on('error', function(e) {
-			console.log("Got error: " + e.message);
-			scrapeGemeinde(++index);
+			} else {
+				console.log("Got error: " + error);
+				scrapeGemeinde(++index);
+			}
 		});
 	}
 }
 
-readFromFile();
+scrapeGemeinde(0);

@@ -1,0 +1,6 @@
+SELECT ?cid ?name ?AGS ?_official_website WHERE
+{	?cid wdt:P31 wd:Q262166.
+ 	?cid wdt:P439 ?AGS.
+ 	?cid wdt:P856 ?_official_website.
+ 	OPTIONAL { ?cid rdfs:label ?name. FILTER((LANG(?name)) = "de") }
+}
